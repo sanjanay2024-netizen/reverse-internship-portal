@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}Dashboard | Reverse Internship Portal{% endblock %}
+{% block content %}
+
+<h1>Welcome, {{ session.get('name', 'User') }}!</h1>
+
+{% with messages = get_flashed_messages() %}
+    {% for message in messages %}
+        <p class="notice">{{ message }}</p>
+    {% endfor %}
+{% endwith %}
+
+{% if session.get('role') == 'student' %}
+
+    <div class="card">
+        <h2>Student Dashboard</h2>
+        <p class="muted">Manage your profile and review company invitations.</p>
+        <a class="btn" href="{{ url_for('profile') }}">Edit My Profile</a>
+        <a class="btn" href="{{ url_for('invitations') }}">View Invitations</a>
+    </div>
+
+    <div class="card">
+        <h2>My Skills</h2>
+        <p>{{ profile['skills'] or 'Add your skills to your profile.' }}</p>
+        <h3 style="margin-top:15px">CGPA</h3>
+        <p>{{ profile['cgpa'] if profile['cgpa'] is not none else 'Not added' }}</p>
+        <h3 style="margin-top:15px">Projects</h3>
+        <p>{{ profile['projects'] or 'Add your projects to your profile.' }}</p>
+    </div>
+
+    <div class="card">
+        <h2>Recent Invitations</h2>
+        {% if invitations %}
+            {% for invitation in invitations %}
+                <div class="card">
+                    <h3>{{ invitation['title'] }}</h3>
+                    <p>Company: {{ invitation['company_name'] }}</p>
+                    <p>Status: <strong>{{ invitation['status'] }}</strong></p>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="muted">You have no invitations yet.</p>
+        {% endif %}
+    </div>
+
+{% elif session.get('role') == 'company' %}
+
+    <div class="card">
+        <h2>Company Dashboard</h2>
+        <p class="muted">Publish opportunities and discover talented students.</p>
+        <a class="btn" href="{{ url_for('internship_new') }}">Post an Internship</a>
+        <a class="btn" href="{{ url_for('students') }}">Find Students</a>
+    </div>
+
+    <div class="card">
+        <h2>Your Internship Listings</h2>
+        {% if internships %}
+            {% for internship in internships %}
+                <div class="card">
+                    <h3>{{ internship['title'] }}</h3>
+                    <p>{{ internship['description'] }}</p>
+                    <p><strong>Skills:</strong> {{ internship['skills'] }}</p>
+                    <p><strong>Location:</strong> {{ internship['location'] }}</p>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="muted">You have not posted any internships yet.</p>
+        {% endif %}
+    </div>
+
+{% endif %}
+{% endblock %}

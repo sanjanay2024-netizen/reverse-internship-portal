@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Post Internship | Reverse Internship Portal{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h1>Post a New Internship</h1>
+    <p class="muted">Create an opportunity and discover suitable students.</p>
+
+    {% with messages = get_flashed_messages() %}
+        {% for message in messages %}
+            <p class="notice">{{ message }}</p>
+        {% endfor %}
+    {% endwith %}
+
+    <form method="POST">
+        <label for="title">Internship Title</label>
+        <input id="title" type="text" name="title"
+            placeholder="Example: Python Developer Intern" required>
+
+        <label for="description">Description</label>
+        <textarea id="description" name="description" rows="5"
+            placeholder="Describe the internship responsibilities" required></textarea>
+
+        <label for="skills">Required Skills</label>
+        <input id="skills" type="text" name="skills"
+            placeholder="Example: Python, Flask, SQL" required>
+
+        <label for="location">Location</label>
+        <input id="location" type="text" name="location"
+            placeholder="Remote or Vellore">
+
+        <button type="submit">Publish Internship</button>
+    </form>
+</div>
+{% endblock %}

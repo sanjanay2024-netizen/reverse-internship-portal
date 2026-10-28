@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Explore Internships | Reverse Internship Portal{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h1>Explore Internships</h1>
+    <p class="muted">
+        Discover opportunities posted by companies and find one that matches your skills.
+    </p>
+
+    {% if internships %}
+        <p>{{ internships|length }} internship(s) available</p>
+    {% endif %}
+</div>
+
+{% for internship in internships %}
+    <div class="card">
+        <h2>{{ internship['title'] }}</h2>
+
+        <p>
+            <strong>Company:</strong>
+            {{ internship['company_name'] }}
+        </p>
+
+        <p>
+            <strong>Location:</strong>
+            {{ internship['location'] or 'Not specified' }}
+        </p>
+
+        <p>
+            <strong>Required Skills:</strong>
+            {{ internship['skills'] }}
+        </p>
+
+        <h3>About this internship</h3>
+        <p>{{ internship['description'] }}</p>
+
+        {% if session.get('role') == 'student' %}
+            <a class="btn" href="{{ url_for('profile') }}">
+                Update My Profile
+            </a>
+        {% elif not session.get('user_id') %}
+            <a class="btn" href="{{ url_for('login') }}">
+                Log in to Your Account
+            </a>
+        {% endif %}
+    </div>
+{% else %}
+    <div class="card">
+        <h2>No internships available yet</h2>
+        <p>
+            Companies have not posted any internships yet.
+            Please check again later.
+        </p>
+        <a class="btn" href="{{ url_for('home') }}">Back to Home</a>
+    </div>
+{% endfor %}
+
+{% endblock %}

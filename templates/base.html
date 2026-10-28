@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Reverse Internship Portal{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head> 
+<body>
+    <nav>
+        <strong>Reverse Internship Portal</strong>
+        <div>
+            <a href="{{ url_for('home') }}">Home</a>
+
+            {% if session.get('user_id') %}
+                <a href="{{ url_for('dashboard') }}">Dashboard</a>
+
+                {% if session.get('role') == 'student' %}
+                    <a href="{{ url_for('profile') }}">My Profile</a>
+                    <a href="{{ url_for('invitations') }}">Invitations</a>
+                {% elif session.get('role') == 'company' %}
+                    <a href="{{ url_for('students') }}">Find Students</a>
+                    <a href="{{ url_for('internship_new') }}">Post Internship</a>
+                {% endif %}
+
+                <a href="{{ url_for('logout') }}">Logout</a>
+            {% else %}
+                <a href="{{ url_for('login') }}">Login</a>
+                <a href="{{ url_for('register') }}">Register</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <main class="container">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>Reverse Internship Portal | 2026</footer>
+</body>
+</html>
