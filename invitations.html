@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block title %}My Invitations | Reverse Internship Portal{% endblock %}
+
+{% block content %}
+<h1>My Internship Invitations</h1>
+<p class="muted">Review opportunities shared by companies.</p>
+
+{% with messages = get_flashed_messages() %}
+    {% for message in messages %}
+        <p class="notice">{{ message }}</p>
+    {% endfor %}
+{% endwith %}
+
+{% if invitations %}
+    <input
+        type="text"
+        id="invitationSearch"
+        placeholder="Search by company, title, location or status..."
+        style="width:100%; padding:12px; margin:15px 0; box-sizing:border-box;"
+    >
+
+    <p id="noResults" style="display:none;">
+        No matching invitations found.
+    </p>
+{% endif %}
+
+<div id="invitationList">
+{% for invitation in invitations %}
+    <div class="card invitation-card">
+        <h2>{{ invitation['title'] }}</h2>
+
+        <p><strong>Company:</strong> {{ invitation['company_name'] }}</p>
+        <p><strong>Description:</strong> {{ invitation['description'] }}</p>
+        <p><strong>Location:</strong> {{ invitation['location'] }}</p>
+        <p><strong>Status:</strong> {{ invitation['status'] }}</p>
+
+        {% if invitation['status'] == 'Pending' %}
+            <div class="actions">
+                <form method="POST"
+                      action="{{ url_for('invitation_action', invitation_id=invitation['id'], action='Accepted') }}">
+                    <button type="submit">Accept</button>
+                </form>
+
+                <form method="POST"
+                      action="{{ url_for('invitation_action', invitation_id=invitation['id'], action='Rejected') }}">
+                    <button type="submit">Reject</button>
+                </form>
+            </div>
+        {% endif %}
+    </div>
+{% else %}
+    <div class="card">
+        <p>You have no invitations yet. Complete your profile so companies can discover you.</p>
+        <a class="btn" href="{{ url_for('profile') }}">Update My Profile</a>
+    </div>
+{% endfor %}
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const search = document.getElementById("invitationSearch");
+    const cards = document.querySelectorAll(".invitation-card");
+    const noResults = document.getElementById("noResults");
+
+    if (!search) return;
+
+    search.addEventListener("input", function () {
+        const query = search.value.toLowerCase().trim();
+        let visibleCount = 0;
+
+        cards.forEach(function (card) {
+            const matches = card.textContent.toLowerCase().includes(query);
+            card.style.display = matches ? "" : "none";
+
+            if (matches) visibleCount++;
+        });
+
+        noResults.style.display = visibleCount === 0 ? "block" : "none";
+    });
+});
+</script>
+
+{% endblock %}

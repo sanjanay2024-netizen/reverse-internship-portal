@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}My Profile | Reverse Internship Portal{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h1>My Student Profile</h1>
+    <p class="muted">Show companies your skills, projects and experience.</p>
+
+    {% with messages = get_flashed_messages() %}
+        {% for message in messages %}
+            <p class="notice">{{ message }}</p>
+        {% endfor %}
+    {% endwith %}
+
+    <p><strong>Name:</strong> {{ student['name'] }}</p>
+    <p><strong>Email:</strong> {{ student['email'] }}</p>
+
+    <form method="POST">
+        <label for="skills">Skills</label>
+        <textarea id="skills" name="skills" rows="3"
+            placeholder="Example: Python, Java, HTML, CSS">{{ student['skills'] or '' }}</textarea>
+
+        <label for="cgpa">CGPA (0–10)</label>
+        <input id="cgpa" type="number" name="cgpa"
+            min="0" max="10" step="0.01"
+            value="{{ student['cgpa'] if student['cgpa'] is not none else '' }}"
+            placeholder="Enter your CGPA">
+
+        <label for="projects">Projects</label>
+        <textarea id="projects" name="projects" rows="4"
+            placeholder="Describe your academic or personal projects">{{ student['projects'] or '' }}</textarea>
+
+        <label for="resume_link">Resume Link (optional)</label>
+        <input id="resume_link" type="url" name="resume_link"
+            value="{{ student['resume_link'] or '' }}"
+            placeholder="Paste your resume link">
+
+        <button type="submit">Save Profile</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block title %}Find Students | Reverse Internship Portal{% endblock %}
+
+{% block content %}
+<h1>Discover Students</h1>
+<p class="muted">Find students whose skills match your internship.</p>
+
+{% with messages = get_flashed_messages() %}
+    {% for message in messages %}
+        <p class="notice">{{ message }}</p>
+    {% endfor %}
+{% endwith %}
+
+<div class="card">
+    <form method="GET">
+        <label for="skill">Search by Skill</label>
+        <input id="skill" type="text" name="skill"
+            value="{{ request.args.get('skill', '') }}"
+            placeholder="Example: Python">
+        <button type="submit">Search Students</button>
+    </form>
+</div>
+
+{% for student in students %}
+    <div class="card">
+        <h2>{{ student['name'] }}</h2>
+
+        <p><strong>Skills:</strong>
+            {{ student['skills'] or 'Not added yet' }}
+        </p>
+
+        <p><strong>CGPA:</strong>
+            {{ student['cgpa'] if student['cgpa'] is not none else 'Not added' }}
+        </p>
+
+        <p><strong>Projects:</strong>
+            {{ student['projects'] or 'Not added yet' }}
+        </p>
+
+        {% if student['resume_link'] %}
+            <p>
+                <a href="{{ student['resume_link'] }}"
+                   target="_blank" rel="noopener noreferrer">
+                    View Resume
+                </a>
+            </p>
+        {% endif %}
+
+        {% if internships %}
+            <form method="POST"
+                action="{{ url_for('invite', student_id=student['id']) }}">
+
+                <label>Select Your Internship</label>
+                <select name="internship_id" required>
+                    <option value="">Choose an internship</option>
+                    {% for internship in internships %}
+                        <option value="{{ internship['id'] }}">
+                            {{ internship['title'] }}
+                        </option>
+                    {% endfor %}
+                </select>
+
+                <button type="submit">Send Invitation</button>
+            </form>
+        {% else %}
+            <p class="muted">
+                Post an internship before inviting students.
+            </p>
+            <a class="btn" href="{{ url_for('internship_new') }}">
+                Post Internship
+            </a>
+        {% endif %}
+    </div>
+{% else %}
+    <div class="card">
+        <p>No students found. Try searching with another skill.</p>
+    </div>
+{% endfor %}
+
+{% endblock %}

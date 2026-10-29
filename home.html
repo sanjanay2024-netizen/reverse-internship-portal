@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reverse Internship Portal</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6fb;
+            color: #222;
+        }
+
+        nav {
+            background: #172554;
+            color: white;
+            padding: 22px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav h2 {
+            font-size: 23px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 100px 20px;
+            background: linear-gradient(135deg, #1e3a8a, #6366f1);
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 44px;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            line-height: 1.7;
+            max-width: 700px;
+            margin: 0 auto 25px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 14px 25px;
+            margin: 8px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            background: white;
+            color: #1e3a8a;
+        }
+
+        .btn-primary {
+            background: #fbbf24;
+            color: #172554;
+        }
+
+        .features {
+            padding: 60px 8%;
+            text-align: center;
+        }
+
+        .features h2 {
+            font-size: 30px;
+            margin-bottom: 35px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: white;
+            padding: 30px 22px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .card h3 {
+            color: #1e3a8a;
+            margin-bottom: 15px;
+        }
+
+        .card p {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        footer {
+            background: #172554;
+            color: white;
+            text-align: center;
+            padding: 22px;
+        }
+
+        @media (max-width: 600px) {
+            .hero h1 {
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <h2>Reverse Internship Portal</h2>
+        <a href="/">Home</a>
+    </nav>
+
+    <section class="hero">
+        <h1>Show Your Skills. Get Discovered.</h1>
+
+        <p>
+            Showcase your projects, technical skills and achievements.
+            Discover internship opportunities that match your talent
+            and career interests.
+        </p>
+
+        <a class="btn btn-primary" href="{{ url_for('register') }}">Student Portal</a>
+        <a class="btn" href="/internships">Explore Internships</a>
+    </section>
+
+    <section class="features">
+        <h2>Explore Our Platform</h2>
+
+        <div class="cards">
+            <div class="card">
+                <h3>Student Profiles</h3>
+                <p>Create your profile and showcase your skills, projects and achievements.</p>
+            </div>
+
+            <div class="card">
+                <h3>Internship Listings</h3>
+                <p>Discover opportunities suited to your interests and technical skills.</p>
+            </div>
+
+            <div class="card">
+                <h3>Skill Matching</h3>
+                <p>Connect your strengths with internship requirements.</p>
+            </div>
+
+            <div class="card">
+                <h3>Application Tracking</h3>
+                <p>Keep track of your internship applications and their status.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>Reverse Internship Portal | 2026</p>
+    </footer>
+
+</body>
+</html>
